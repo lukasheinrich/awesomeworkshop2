@@ -28,6 +28,21 @@ histogram:
     publish:
       histogram_file: '{output_dir}/histograms.root'
 
+plot:
+  process:
+    process_type: 'interpolated-script-cmd'
+    script: |
+      mkdir {output_dir}
+      bash plot.sh {histogram_file} {output_dir}
+  environment:
+    environment_type: 'docker-encapsulated'
+    image: gitlab-registry.cern.ch/awesome-workshop/awesome-analysis-eventselection-stage3
+    imagetag: master
+  publisher:
+    publisher_type: interpolated-pub
+    publish:
+      fitting_plot: '{output_dir}'
+
 fit:
   process:
     process_type: 'interpolated-script-cmd'
@@ -43,17 +58,3 @@ fit:
     publish:
       fitting_plot: '{output_dir}/fit.png'
 
-plot:
-  process:
-    process_type: 'interpolated-script-cmd'
-    script: |
-      mkdir {output_dir}
-      bash plot.sh {histogram_file} {output_dir}
-  environment:
-    environment_type: 'docker-encapsulated'
-    image: gitlab-registry.cern.ch/awesome-workshop/awesome-analysis-eventselection-stage3
-    imagetag: master
-  publisher:
-    publisher_type: interpolated-pub
-    publish:
-      fitting_plot: '{output_dir}/dummy'
