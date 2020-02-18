@@ -26,3 +26,13 @@ stages:
       output_dir: '{workdir}/output'
     step: {$ref: 'steps.yml#/fit'}
 
+- name: plot
+  dependencies: [histogram]
+  scheduler:
+    scheduler_type: singlestep-stage
+    parameters:
+      histogram_file: {step: histogram, output: histogram_file}
+      output_dir: '{workdir}/output'
+    step: {$ref: 'steps.yml#/plot'}
+
+
